@@ -5,8 +5,7 @@ const CACHE_NAME = APP_PREFIX + VERSION;
 
 //Files to be included in cache
 const FILES_TO_CACHE = [
-    "./",
-    "./models/transaction.js",
+    "/",
     "./css/styles.css",
     "./icons/icon-72x72.png",
     "./icons/icon-96x96.png",
@@ -17,7 +16,9 @@ const FILES_TO_CACHE = [
     "./icons/icon-384x384.png",
     "./icons/icon-512x512.png",
     "./js/index.js",
-    "./index.html"
+    "./js/idb.js",
+    "./index.html",
+    "./manifest.json"
 ];
 
 //INSTALL
