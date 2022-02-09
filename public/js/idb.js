@@ -22,37 +22,37 @@ request.onsuccess = function (event) {
     }
 };
 
+//Logs error in event there is an error
 request.onerror = function (event) {
-    //Logs error in event there is an error
     console.log(event.target.errorCode);
 };
 
 //Function will be used if we update the budget tracker with no internet connection
 function saveRecord(record) {
-    // open a new transaction with the database with read and write permissions 
-    const budget = db.transaction(['new_budget'], 'readwrite');
+    //Opens a budget with read and write permissions
+    const budget = db.budget(['new_budget'], 'readwrite');
 
-    // access the object store for `new_pizza`
+    //Accesses the object store for the new budget
     const budgetObjectStore = budget.objectStore('new_budget');
 
-    // add record to your store with add method
+    //Adds record to the object store
     budgetObjectStore.add(record);
 }
 
 function uploadBudget() {
-    // open a transaction on your pending db
-    const transaction = db.transaction(['new_budget'], 'readwrite');
+    //Opens a budget on a pending database
+    const budget = db.budget(['new_budget'], 'readwrite');
 
-    // access your pending object store
-    const budgetObjectStore = transaction.objectStore('new_budget');
+    //Accesses the pending database object store
+    const budgetObjectStore = budget.objectStore('new_budget');
 
-    // get all records from store and set to a variable
+    //Sets all records from object store to variables
     const getAll = budgetObjectStore.getAll();
 
     getAll.onsuccess = function () {
-        // if there was data in indexedDb's store, let's send it to the api server
+        //If data is in the indexDB's store, this will send it to the api server
         if (getAll.result.length > 0) {
-            fetch('/api/pizzas', {
+            fetch('/api/transaction', {
                 method: 'POST',
                 body: JSON.stringify(getAll.result),
                 headers: {
@@ -66,18 +66,18 @@ function uploadBudget() {
                         throw new Error(serverResponse);
                     }
 
-                    const transaction = db.transaction(['new_budget'], 'readwrite');
-                    const pizzaObjectStore = transaction.objectStore('new_budget');
-                    // clear all items in your store
-                    pizzaObjectStore.clear();
+                    const budget = db.budget(['new_budget'], 'readwrite');
+                    const budgetObjectStore = budget.objectStore('new_budget');
+                    //Clears items in store
+                    budgetObjectStore.clear();
                 })
                 .catch(err => {
-                    // set reference to redirect back here
+                    //Catches for any errors
                     console.log(err);
                 });
         }
     };
 }
 
-// listen for app coming back online
-window.addEventListener('online', uploadPizza);
+//Looks for the app online
+window.addEventListener('online', uploadBudget);

@@ -1,7 +1,9 @@
+//Set Up Cache Variables
 const APP_PREFIX = 'BudgetTracker-';
 const VERSION = 'version_01';
 const CACHE_NAME = APP_PREFIX + VERSION;
 
+//Files to be included in cache
 const FILES_TO_CACHE = [
     "./",
     "./models/transaction.js",
